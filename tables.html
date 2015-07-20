@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Time On Time Off</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="libs/forms.js"></script>
+
+  <!--favicon-->
+  <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="icons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="icons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="icons/manifest.json">
+  <link rel="shortcut icon" href="icons/favicon.ico">
+  <meta name="apple-mobile-web-app-title" content="Time On Time Off">
+  <meta name="application-name" content="Time On Time Off">
+  <meta name="msapplication-TileColor" content="#e32a2a">
+  <meta name="msapplication-TileImage" content="icons/mstile-144x144.png">
+  <meta name="msapplication-config" content="icons/browserconfig.xml">
+  <meta name="theme-color" content="#e32a2a">
+
+  <script>
+    $(document).ready(function(){
+      $("#list").on("click",".entry",function(){
+        var msg = $(this).attr("comments");
+        alert(msg);
+      });
+
+      $("#submit").click(function(){
+        var url = "update.php";
+        $.post(url, $(".form-control").serialize(),function(data){
+          //console.log(data);
+        }).done(function(){
+          $(".form-control").val("");
+          updateList();
+          $('html, body').animate({
+              scrollTop: $(document).height()
+          }, 'slow');          
+        });
+
+      });
+
+      $("#pid").val(genPID());
+      $("#date").val(new Date().getTime());
+      updateList();
+    });
+
+
+    function updateList(){
+      var url = "get.php";
+      $.getJSON( url, function( data ) {
+          $("#list").html("");
+          for(var i=0;i<data.length;i++){
+              var date = data[i].date;
+              date = formatAMPM(date);
+              var vacation = data[i].vacation;
+              var sick = data[i].sick;
+              var personal = data[i].personal;
+              var holiday = data[i].holiday;
+              var comments = data[i].comments;
+              comments = comments.replace("'","&#39;");
+              $("#list").append("<tr comments='"+comments+"' class='entry'>"+
+              "<td>"+date+"</td>"+
+              "<td>"+vacation+"</td>"+
+              "<td>"+sick+"</td>"+
+              "<td>"+personal+"</td>"+
+              "<td>"+holiday+"</td>"+
+              "</tr>").text();
+          }
+      });
+    }
+  </script>
+<script src='/google_analytics_auto.js'></script></head>
+<body>
+
+<div class="container">
+  <h2>Time On Time Off</h2>
+  <form class="form-inline" role="form" id="mainForm">
+    <div class="form-group">
+        <input type="text" class="form-control" name="pid" id="pid" style="display:none">
+        <input type="text" class="form-control" name="date" id="date" style="display:none">
+
+      <div class="col-sm-3">
+        <label for="vacation">Vacation:</label>
+        <input type="number" class="form-control" name="vacation" id="vacation" placeholder="Enter Vacation Time">
+      </div>
+      <div class="col-sm-3">
+        <label for="sick">Sick time:</label>
+        <input type="number" class="form-control" name="sick" id="sick" placeholder="Enter Sick Time">
+      </div>
+      <div class="col-sm-3">
+        <label for="personal">personal:</label>
+        <input type="number" class="form-control" name="personal" id="personal" placeholder="Enter Personal Time">
+      </div>
+      <div class="col-sm-3">
+        <label for="holiday">Holiday:</label>
+        <input type="number" class="form-control" name="holiday" id="holiday" placeholder="Enter Holiday Time">
+      </div>
+    </div>
+  </form>
+
+    <div class="col-sm-12">
+      <label for="comments">Comments:</label>
+      <input type="text" class="form-control" name="comments" id="comments" placeholder="Enter Comments">
+    <br>
+    </div>
+    <div class="col-sm-12">
+      <button id="submit" type="submit" class="btn btn-danger btn-block btn-lg">Submit</button>
+    </div>
+ 
+</div>
+<hr>
+<div class="container">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Vacation</th>
+        <th>Sick</th>
+        <th>Personal</th>
+        <th>Holliday</th>
+      </tr>
+    </thead>
+    <tbody id="list">
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+
+
