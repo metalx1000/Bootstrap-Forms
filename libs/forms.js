@@ -1,9 +1,13 @@
-function submit(url,form){
-    if(!$("#pid").length)){
+function submit(url,form, scroll){
+    if(typeof url === 'undefined'){url = "update.php"}
+    if(typeof form === 'undefined'){form = $("#mainForm")}
+    if(typeof scroll === 'undefined'){scroll = false}
+
+    if(!$("#pid").length){
       form.append('<input type="text" class="form-control" name="pid" id="pid" style="display:none">');
     }
 
-    if(!$("#date").length)){
+    if(!$("#date").length){
       form.append('<input type="text" class="form-control" name="date" id="date" style="display:none">');
     }  
 
@@ -15,9 +19,11 @@ function submit(url,form){
     }).done(function(){
       form.val("");
       updateList();
-      $('html, body').animate({
-          scrollTop: $(document).height()
-      }, 'slow');          
+      if(scroll){
+        $('html, body').animate({
+            scrollTop: $(document).height()
+        }, 'slow');          
+      }
     });
 }
 

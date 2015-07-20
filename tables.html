@@ -41,21 +41,12 @@
       });
 
       $("#submit").click(function(){
+        var form = $("#mainForm");
         var url = "update.php";
-        $.post(url, $(".form-control").serialize(),function(data){
-          //console.log(data);
-        }).done(function(){
-          $(".form-control").val("");
-          updateList();
-          $('html, body').animate({
-              scrollTop: $(document).height()
-          }, 'slow');          
-        });
-
+        var scroll = true
+        submit(url,form,scroll);
       });
 
-      $("#pid").val(genPID());
-      $("#date").val(new Date().getTime());
       updateList();
     });
 
