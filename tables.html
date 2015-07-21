@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Time On Time Off</title>
+  <title>Example Table Form</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -28,10 +27,10 @@
   <link rel="shortcut icon" href="icons/favicon.ico">
   <meta name="apple-mobile-web-app-title" content="Time On Time Off">
   <meta name="application-name" content="Time On Time Off">
-  <meta name="msapplication-TileColor" content="#e32a2a">
+  <meta name="msapplication-TileColor" content="#000000">
   <meta name="msapplication-TileImage" content="icons/mstile-144x144.png">
   <meta name="msapplication-config" content="icons/browserconfig.xml">
-  <meta name="theme-color" content="#e32a2a">
+  <meta name="theme-color" content="#000000">
 
   <script>
     $(document).ready(function(){
@@ -58,48 +57,32 @@
           for(var i=0;i<data.length;i++){
               var date = data[i].date;
               date = formatAMPM(date);
-              var vacation = data[i].vacation;
-              var sick = data[i].sick;
-              var personal = data[i].personal;
-              var holiday = data[i].holiday;
+              var name = data[i].name;
+              var enum = data[i].enum;
               var comments = data[i].comments;
-              comments = comments.replace("'","&#39;");
+              comments = htmlEncode(comments);
               $("#list").append("<tr comments='"+comments+"' class='entry'>"+
               "<td>"+date+"</td>"+
-              "<td>"+vacation+"</td>"+
-              "<td>"+sick+"</td>"+
-              "<td>"+personal+"</td>"+
-              "<td>"+holiday+"</td>"+
-              "</tr>").text();
+              "<td>"+name+"</td>"+
+              "<td>"+enum+"</td>"+
+              "</tr>");
           }
       });
     }
   </script>
-<script src='/google_analytics_auto.js'></script></head>
 <body>
 
 <div class="container">
-  <h2>Time On Time Off</h2>
+  <h2>Example Table Form</h2>
   <form class="form-inline" role="form" id="mainForm">
     <div class="form-group">
-        <input type="text" class="form-control" name="pid" id="pid" style="display:none">
-        <input type="text" class="form-control" name="date" id="date" style="display:none">
-
-      <div class="col-sm-3">
-        <label for="vacation">Vacation:</label>
-        <input type="number" class="form-control" name="vacation" id="vacation" placeholder="Enter Vacation Time">
+      <div class="col-sm-5">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" name="name" id="Name" placeholder="Enter Name">
       </div>
-      <div class="col-sm-3">
-        <label for="sick">Sick time:</label>
-        <input type="number" class="form-control" name="sick" id="sick" placeholder="Enter Sick Time">
-      </div>
-      <div class="col-sm-3">
-        <label for="personal">personal:</label>
-        <input type="number" class="form-control" name="personal" id="personal" placeholder="Enter Personal Time">
-      </div>
-      <div class="col-sm-3">
-        <label for="holiday">Holiday:</label>
-        <input type="number" class="form-control" name="holiday" id="holiday" placeholder="Enter Holiday Time">
+      <div class="col-sm-6">
+        <label for="enum">Employee Number:</label>
+        <input type="number" class="form-control" name="enum" id="enum" placeholder="Enter E#">
       </div>
     </div>
   </form>
@@ -110,7 +93,7 @@
     <br>
     </div>
     <div class="col-sm-12">
-      <button id="submit" type="submit" class="btn btn-danger btn-block btn-lg">Submit</button>
+      <button id="submit" type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
     </div>
  
 </div>
@@ -120,10 +103,8 @@
     <thead>
       <tr>
         <th>Date</th>
-        <th>Vacation</th>
-        <th>Sick</th>
-        <th>Personal</th>
-        <th>Holliday</th>
+        <th>Name</th>
+        <th>Employee #</th>
       </tr>
     </thead>
     <tbody id="list">

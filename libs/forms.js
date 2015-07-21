@@ -64,4 +64,10 @@ Date.prototype.toDateInputValue = (function() {
 
 function timeStamp(){
   return new Date().getTime()
+}
+
+function htmlEncode(str){
+  str = str.replace("'","&#39;");
+
+  return str;
 } 
