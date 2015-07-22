@@ -1,27 +1,27 @@
 function submit(url,form, scroll){
-    if(typeof url === 'undefined'){url = "update.php"}
-    if(typeof form === 'undefined'){form = $("#mainForm")}
-    if(typeof scroll === 'undefined'){scroll = false}
+  if(typeof url === 'undefined'){url = "update.php"}
+  if(typeof form === 'undefined'){form = $("#mainForm")}
+  if(typeof scroll === 'undefined'){scroll = false}
 
-    //auto create pid and date if needed
-    autoCreate(form);
+  //set timestamp and pid
+  $("#pid").val(genPID());
+  $("#date").val(timeStamp());
 
-    $("#pid").val(genPID());
-    $("#date").val(timeStamp());
-    var comments = $("#comments").val(); 
-    comments = htmlEncode(comments);
-    $("#comments").val(comments); 
-    $.post(url, form.serialize(),function(data){
-      //console.log(data);
-    }).done(function(){
-      form.val("");
-      updateList();
-      if(scroll){
-        $('html, body').animate({
-            scrollTop: $(document).height()
-        }, 'slow');          
-      }
-    });
+  var comments = $("#comments").val(); 
+  //comments = htmlEncode(comments);
+  comments = encodeURIComponent(comments);
+  $("#comments").val(comments); 
+  $.post(url, form.serialize(),function(data){
+    //console.log(data);
+  }).done(function(){
+    form.val("");
+    updateList();
+    if(scroll){
+      $('html, body').animate({
+          scrollTop: $(document).height()
+      }, 'slow');          
+    }
+  });
 }
 
 function genPID() {
@@ -64,9 +64,9 @@ function timeStamp(){
 }
 
 function htmlEncode(str){
-  str = str.replace("'","&#39;");
-  str = str.replace(">","&gt");
-  str = str.replace("<","&lt");
+  str = str.replace(/'/g,"&#39;");
+  //str = str.replace(/>/g,"&gt;");
+  //str = str.replace(/</g,"&lt;");
   return str;
 }
 
@@ -78,4 +78,5 @@ function autoCreate(form){
   if(!$("#date").length){
     form.append('<input type="text" class="form-control" name="date" id="date" style="display:none">');
   } 
+
 } 

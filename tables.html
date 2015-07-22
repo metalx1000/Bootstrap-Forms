@@ -34,16 +34,19 @@
 
   <script>
     $(document).ready(function(){
+      var form = $("#mainForm");
+      autoCreate(form); 
+
       $("#list").on("click",".entry",function(){
         var msg = $(this).attr("comments");
         alert(msg);
       });
 
       $("#submit").click(function(){
-        var form = $(".form-control");
+        var elements = $(".form-control");
         var url = "update.php";
         var scroll = true
-        submit(url,form,scroll);
+        submit(url,elements,scroll);
       });
 
       updateList();
@@ -62,6 +65,7 @@
               var epnum = data[i].epnum;
               var comments = data[i].comments;
               comments = htmlEncode(comments);
+              comments = decodeURIComponent(comments);
               $("#list").append("<tr comments='"+comments+"' class='entry'>"+
               "<td>"+date+"</td>"+
               "<td>"+name+"</td>"+
