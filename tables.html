@@ -40,7 +40,7 @@
       });
 
       $("#submit").click(function(){
-        var form = $("#mainForm");
+        var form = $(".form-control");
         var url = "update.php";
         var scroll = true
         submit(url,form,scroll);
@@ -56,15 +56,16 @@
           $("#list").html("");
           for(var i=0;i<data.length;i++){
               var date = data[i].date;
+              
               date = formatAMPM(date);
               var name = data[i].name;
-              var enum = data[i].enum;
+              var epnum = data[i].epnum;
               var comments = data[i].comments;
               comments = htmlEncode(comments);
               $("#list").append("<tr comments='"+comments+"' class='entry'>"+
               "<td>"+date+"</td>"+
               "<td>"+name+"</td>"+
-              "<td>"+enum+"</td>"+
+              "<td>"+epnum+"</td>"+
               "</tr>");
           }
       });
@@ -81,8 +82,8 @@
         <input type="text" class="form-control" name="name" id="Name" placeholder="Enter Name">
       </div>
       <div class="col-sm-6">
-        <label for="enum">Employee Number:</label>
-        <input type="number" class="form-control" name="enum" id="enum" placeholder="Enter E#">
+        <label for="epnum">Employee Number:</label>
+        <input type="number" class="form-control" name="epnum" id="epnum" placeholder="Enter E#">
       </div>
     </div>
   </form>

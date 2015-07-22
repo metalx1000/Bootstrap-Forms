@@ -3,17 +3,14 @@ function submit(url,form, scroll){
     if(typeof form === 'undefined'){form = $("#mainForm")}
     if(typeof scroll === 'undefined'){scroll = false}
 
-    if(!$("#pid").length){
-      form.append('<input type="text" class="form-control" name="pid" id="pid" style="display:none">');
-    }
-
-    if(!$("#date").length){
-      form.append('<input type="text" class="form-control" name="date" id="date" style="display:none">');
-    }  
+    //auto create pid and date if needed
+    autoCreate(form);
 
     $("#pid").val(genPID());
     $("#date").val(timeStamp());
-  
+    var comments = $("#comments").val(); 
+    comments = htmlEncode(comments);
+    $("#comments").val(comments); 
     $.post(url, form.serialize(),function(data){
       //console.log(data);
     }).done(function(){
@@ -68,6 +65,17 @@ function timeStamp(){
 
 function htmlEncode(str){
   str = str.replace("'","&#39;");
-
+  str = str.replace(">","&gt");
+  str = str.replace("<","&lt");
   return str;
+}
+
+function autoCreate(form){
+  if(!$("#pid").length){
+    form.append('<input type="text" class="form-control" name="pid" id="pid" style="display:none">');
+  }
+
+  if(!$("#date").length){
+    form.append('<input type="text" class="form-control" name="date" id="date" style="display:none">');
+  } 
 } 
