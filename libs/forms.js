@@ -8,8 +8,8 @@ function submit(url,form, scroll){
   $("#date").val(timeStamp());
 
   var comments = $("#comments").val(); 
-  //comments = htmlEncode(comments);
-  comments = encodeURIComponent(comments);
+  comments = htmlEncode(comments);
+  //comments = encodeURIComponent(comments);
   $("#comments").val(comments); 
   $.post(url, form.serialize(),function(data){
     //console.log(data);
@@ -65,8 +65,8 @@ function timeStamp(){
 
 function htmlEncode(str){
   str = str.replace(/'/g,"&#39;");
-  //str = str.replace(/>/g,"&gt;");
-  //str = str.replace(/</g,"&lt;");
+  str = str.replace(/>/g,"&#62;");
+  str = str.replace(/</g,"&#60;");
   return str;
 }
 

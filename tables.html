@@ -39,7 +39,8 @@
 
         $("#list").on("click",".entry",function(){
           var msg = $(this).attr("comments");
-          alert(msg);
+          $("#msg").html(msg);
+          $('#Modal').modal('show');
         });
 
         $("#submit").click(function(){
@@ -65,7 +66,8 @@
             var epnum = data[i].epnum;
             var comments = data[i].comments;
             comments = htmlEncode(comments);
-            comments = decodeURIComponent(comments);
+            console.log(comments);
+            //comments = decodeURIComponent(comments);
             $("#list").append("<tr comments='"+comments+"' class='entry'>"+
                 "<td>"+date+"</td>"+
                 "<td>"+name+"</td>"+
@@ -121,6 +123,28 @@
           <tbody id="list">
           </tbody>
         </table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="Modal" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Comments</h4>
+              </div>
+              <div class="modal-body">
+                <pre id="msg"></pre>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
       </div>
 
     </body>
