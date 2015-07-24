@@ -7,10 +7,14 @@ function submit(url,form, scroll){
   $("#pid").val(genPID());
   $("#date").val(timeStamp());
 
-  var comments = $("#comments").val(); 
-  comments = htmlEncode(comments);
-  //comments = encodeURIComponent(comments);
-  $("#comments").val(comments); 
+  //check if comments exist and encode them
+  if( $("#comments") ){
+    var comments = $("#comments").val(); 
+    comments = htmlEncode(comments);
+    //comments = encodeURIComponent(comments);
+    $("#comments").val(comments);
+  }
+ 
   $.post(url, form.serialize(),function(data){
     //console.log(data);
   }).done(function(){
